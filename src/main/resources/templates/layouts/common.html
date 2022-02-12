@@ -1,0 +1,64 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<!--
+
+  Date: 02/05/2022
+  Front end design for the all pages by providing a footer, header and content following the same css.
+  
+  @author Katie Munoz
+  @version 1
+ 
+ 
+Common Header Fragment -->
+<div th:fragment="header">
+	
+	<div class="bs-example">
+		<nav class="navbar-custom">
+			<!-- Brand and Toggle Get Grouped for better mobile Display -->
+			<div sec:authorize="isAuthenticated()" class="navbar-header">
+				<button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+					<span class="sr-only">Toggle Navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a href="/shelf/" class="navbar-brand">Home</a>
+			</div>
+			<div sec:authorize="isAnonymous()"class="navbar-header">
+				<button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+					<span class="sr-only">Toggle Navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a href="/" class="navbar-brand">Book Worms</a>
+			</div>
+			<!-- Collection of Nav Links and other content for toggling -->
+			<div id="navbarCollapse" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li sec:authorize="isAuthenticated()"><a href="/cart/" class="navbar-dark">My Cart</a></li >
+				</ul>
+				<ul class="nav navbar-nav">
+					<li sec:authorize="isAuthenticated()"><a href="/search/" class="navbar-dark">Search</a></li >
+				</ul>
+				<ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
+						<li><a href="/logout" class="navbar-dark">Sign Out</a></li> 
+				</ul>
+				<ul sec:authorize="isAnonymous()" class="nav navbar-nav navbar-right">
+						<li><a href="/login/" class="navbar-dark">Login</a></li>
+						<li><a href="/register/" class="navbar-dark">Register</a></li>
+				</ul>
+			</div>					
+		</nav>
+	</div>
+	<div align="center">
+		<p style ="font-family:Snell Roundhand, cursive;font-size:100px;">Book Worms</p>
+	</div> <br/><br/>
+	<h1 th:text="${title}">Default Message Text</h1><br/>
+	<img style="max-width:20%;height: auto;" th:src="@{/images/book1.png}"/><br/><br/>
+
+</div>
+<!-- Page title and Logo -->
+<div th:fragment="footer">
+<h5 style="color:purple; text-align: center; position: relative; bottom: 0; width: 100%;">Copyright 2022 Book Worms</h5>
+</div>
+

@@ -1,0 +1,52 @@
+<html xmlns:th="http://www.thymeleaf.org" 
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+layout:decorate="layouts/defaultTemplate">
+<link th:rel="stylesheet" th:href="https://www.w3schools.com/w3css/4/w3.css">
+<!--
+  Date: 02/05/2022
+  Front end design for the main page. This is the first page a user should see when accessing the site. 
+  It is here to inform the user that they need to login or register and are given
+  buttons with actions to take them to those pages.
+  
+  @author Katie Munoz
+  @version 1
+ 
+ 
+ -->
+	<head>
+		<title>Book Worms</title>
+	<style>
+	h1 {
+  font-family: "Marker Felt, fantasy";
+  size: 36px;
+  
+}
+	text {
+  font-family: "Marker Felt";
+  font-size: 30px;
+  }
+
+	</style>
+	</head>
+	 
+	<body>
+		<div layout:fragment="content">
+		 
+			<text> Find all kinds of book from all kind of genres. Now selling Ebooks, paperback and hardcovers! </br> Enjoy the book with your creative imagination. </br> Please sign in or register below! </text>
+			<div th:text="${session.username}">Maybe</div>
+			<table>
+				<tr>
+				<form action="#" th:action="@{goLogin}" method="get">
+					<td colspan="3"><input type="submit" class="button "value="Login"></td>
+				</form>
+		<td>
+		
+				<form action="#" th:action="@{goRegister}" method="get">
+					<td colspan="3"><input type="submit"class="button" value="Register"></td>
+				</form>
+				
+				</tr>	
+			</table>
+		</div >
+	</body>
+</html>

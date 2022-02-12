@@ -1,0 +1,17 @@
+<html xmlns:th="http://www.thymeleaf.org" 
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+layout:decorate="layouts/defaultTemplate">
+	<head>
+		<title>Error</title>
+	</head>
+	 
+	<body>
+		<div layout:fragment="content">
+			<div class="pretty-box">
+				<h4>Error</h2>
+				<div class="error" th:text="${errorMessage}"></div>
+			</div>
+
+		</div>	
+	</body>
+</html>

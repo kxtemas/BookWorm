@@ -1,0 +1,48 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<!--
+ Date: 02/05/2022
+  Front end design for the all pages by providing a footer, header and content following the same css.
+  
+  @author Katie Munoz
+  @version 1
+ 
+ 
+ For Bootstrap, jquery, css, etc. Some may need to be checked for spelling -->
+<head>
+ 
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>CST-339 Spring Boot Activity Applicaiton</title>
+	<link th:href = "@{/css/site.css}" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery/dataTables.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.0/css/responsive.dataTables.css">
+	
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="//cdn.datatables.net/responsive/2.2.0/js/dataTables.responsive.js"></script>
+		<style>
+		td{
+			  font-family: "Marker Felt";	 
+			  font-size:30px; 
+		}
+		</style>
+</head>
+
+<body class ="new">
+	<div align="center">
+		<!-- Header Fragment -->
+		<div th:replace="layouts/common :: header">My Header</div>
+		
+		<!-- Body Content -->
+		<section layout:fragment="content">
+			<p> My Body Contents</p>
+		</section>
+		
+		<!-- Footer Fragment -->
+		<div th:replace="layouts/common :: footer">My Footer</div>		
+	</div>
+</body>

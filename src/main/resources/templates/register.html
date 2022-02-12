@@ -1,0 +1,68 @@
+<html xmlns:th="http://www.thymeleaf.org" 
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+layout:decorate="layouts/defaultTemplate">
+<!--
+  Date: 02/05/2022
+  Front end design for the register page. This is the first page a user should see when registering for the site. 
+  It is here to inform the user that they need to login or register and are given
+  buttons with actions to take them to those pages.
+  
+  @author Katie Munoz
+  @version 1
+ 
+ 
+ -->
+	<head>
+		<title>Register</title>
+		<style>
+		h3{
+			  font-family: "Marker Felt";
+			  
+		}
+		</style>
+	</head>
+	
+	
+	 
+	<body>
+	
+	<div layout:fragment="content">
+	<h1>Register Form</h1>
+	<div class="center">
+							<form action="#" th:action="@{/register/doRegister}" th:object="${registerModel}" method="post">
+    <div class="inputbox">
+     <input type="text" th:field="*{firstName}" ><h5 style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"> First Name Error</h5>				
+      <span>First Name</span>
+    </div>
+  <div class="inputbox">
+     <input type="text" th:field="*{lastName}" > <h5 style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"> last Name Error</h5>				
+      <span>Last Name</span>
+    </div>
+     <div class="inputbox">
+     <input type="text" th:field="*{email}" > <h5 style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"> Email Error</h5>				
+      <span> Email</span>
+      </div>
+    <div>
+     <div class="inputbox">
+     <input type="text" th:field="*{username}" ><h5 style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"> Username Error</h5>				
+      <span>Username</span>
+      </div >
+       <div class="inputbox">
+     <input type="password" th:field="*{password}" ><h5 style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"> Password Error</h5>				
+      <span>Password</span>
+      </div >
+      <input type="submit" class="button" value="Submit">
+    </div>
+<br/>
+				<div class="error" th:text="${errorMessage}"></div>
+				<div th:if="${#fields.hasErrors('*')}">List of Errors</div>
+				<div th:each="err : ${#fields.errors('*')}">
+					<span style="color:red" th:text="${err}" class="fieldError"></span>
+				</div>
+			</form>
+		</div>
+		</div>
+	</body>
+</html>
+			
+		

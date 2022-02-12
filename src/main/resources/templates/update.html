@@ -1,0 +1,62 @@
+<html xmlns:th="http://www.thymeleaf.org" 
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+layout:decorate="layouts/defaultTemplate">
+<!--
+
+  Date: 02/05/2022
+  Front end design for the update page. This is the page an admin should see when updating the product. 
+
+  
+  @author Katie Munoz
+  @version 1
+ 
+ 
+ -->
+
+	<head>
+		<title>Update Product</title>
+	</head>
+	 
+	<body>
+		<div layout:fragment="content">
+			<div class="pretty-box">
+				<form action="#" th:action="@{/shelf/doUpdate}" th:object="${productModel}" method="post">
+					<input type="hidden" th:field="*{productId}">
+					<table>
+						<tr>
+							<td>Name: </td><td><input type="text" th:field="*{bookName}" ></td> <td><h5 style="color:red" th:if="${#fields.hasErrors('bookName')}" th:errors="*{bookName}"> Name Error</h5></td>
+						</tr>
+						<tr>
+							<td>Author: </td><td><input type="text" th:field="*{bookAuthor}" ></td> <td><h5 style="color:red" th:if="${#fields.hasErrors('bookAuthor')}" th:errors="*{bookAuthor}"> Author Error</h5></td>
+						</tr>
+						<tr>
+							<td>Genre: </td><td><input type="text" th:field="*{bookGenre}" ></td> <td><h5 style="color:red" th:if="${#fields.hasErrors('bookGenre')}" th:errors="*{bookGenre}"> Genre Error</h5></td>
+						</tr>
+						<tr>
+							<td>Price: </td><td><input type="text" th:field="*{price}" ></td> <td><h5 style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"> Price Error</h5></td>
+						</tr>
+						<tr>
+							<td>Quantity: </td><td><input type="text" th:field="*{quantity}" ></td> <td><h5 style="color:red" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"> Quantity Error</h5></td>
+						</tr>
+						<tr>
+							<td>Description: </td><td><input type="text" th:field="*{bookDescription}" ></td> <td><h5 style="color:red" th:if="${#fields.hasErrors('bookDescription')}" th:errors="*{bookDescription}"> Description Error</h5></td>
+						</tr>
+	
+						<tr>
+							<td><br></td>
+						</tr>
+						<tr>
+							<td style="text-align:center;"colspan="3"><input type="submit" class="button" value="Add" ></td>
+						</tr>	
+					</table>
+					<br/>
+					<div class="error" th:text="${errorMessage}"></div>
+					<div th:if="${#fields.hasErrors('*')}">List of Errors</div>
+					<div th:each="err : ${#fields.errors('*')}">
+						<span style="color:red" th:text="${err}" class="fieldError"></span>
+					</div>
+				</form>			
+			</div>
+		</div>
+	</body>
+</html>
