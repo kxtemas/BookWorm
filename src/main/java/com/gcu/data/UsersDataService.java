@@ -198,45 +198,4 @@ public class UsersDataService implements UserDataAccessInterface<RegisterModel>,
 		}
 	}
 
-	
-	/**
-	 * Return Id by checking for username in database. Will 
-	 * be used to create a session variable.
-	 * 
-	 * @param registerModel Pull username to get id from database
-	 * 
-	 * @return int Used to determine what to do
-	 */
-	@Override
-	public int findId(RegisterModel registerModel) 
-	{
-		
-		//SQL String that finds rows for 
-		String sql = "SELECT * FROM USER WHERE USERNAME = '" + registerModel.getUsername() + "'";
-		
-		
-		//Try to run SQL Query
-		try
-		{
-			//If a row is found then return the id
-			SqlRowSet srs = jdbcTemplateObject.queryForRowSet(sql);
-			if(srs.next())
-			{
-				
-				//Returns user id for session
-				return srs.getInt("USERID");
-			}
-			else
-			{
-				//Return a -1 if no user is found.
-				return -1;
-			}
-			
-		}
-		catch (Exception e)
-		{
-			//Throw Database error
-			throw new DatabaseException("The Database is currently down. Login was unsuccessful");
-		}
-	}
 }
