@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.gcu.data.UserDataAccessInterface;
-import com.gcu.model.LoginModel;
 import com.gcu.model.RegisterModel;
 
 
@@ -36,27 +35,6 @@ public class SecurityBusinessService implements SecurityBusinessServiceInterface
 	@Autowired 
 	 private HttpSession session;
 	
-
-	/**
-	 * Get the user's id by calling the DAO
-	 * 
-	 * 
-	 * @param loginModel Uses Username to get Id
-	 * 
-	 * @return int Used to determine what to do
-	 */
-	@Override
-	public int pullUserId(LoginModel loginModel) {
-		
-		//Convert login model to register model to work with the Data Access Generic type
-		RegisterModel registerModel = new RegisterModel();
-		registerModel.setUsername(loginModel.getUsername());
-		registerModel.setPassword(loginModel.getPassword());
-		
-
-		//Return User ID if username is found
-		return service.findId(registerModel);
-	}
 	
 	
 	/**

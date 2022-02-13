@@ -3,7 +3,6 @@ package com.gcu.business;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.gcu.model.LoginModel;
 
 
 /**
@@ -15,6 +14,5 @@ import com.gcu.model.LoginModel;
  */
 public interface SecurityBusinessServiceInterface 
 {
-	public int pullUserId(LoginModel loginModel);
 	UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 }
