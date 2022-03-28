@@ -3,7 +3,8 @@ package com.gcu.business;
 
 import java.util.List;
 
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gcu.data.DataAccessInterface;
@@ -20,6 +21,8 @@ import com.gcu.model.ProductModel;
  */
 public class ProductBusinessService implements ProductlBusinessInterface 
 {
+	//Logger for logging to console and file
+	private static final Logger logger = LoggerFactory.getLogger(ProductBusinessService.class);
 
 	@Autowired
 	private DataAccessInterface<ProductModel> service;
@@ -39,10 +42,11 @@ public class ProductBusinessService implements ProductlBusinessInterface
 	@Override
 	public int insertProduct(ProductModel productModel) 
 	{
-
+		
 		//Call Service and return a number based on the result
-		return service.create(productModel);
-
+		int infoNumber = service.create(productModel);
+		logger.info("Info Number is " + infoNumber);
+		return infoNumber;
 
 	}
 
@@ -58,7 +62,9 @@ public class ProductBusinessService implements ProductlBusinessInterface
 	public List<ProductModel> displayUserProducts(int id) 
 	{
 
+		
 		//Return service
+		logger.info("Pulling user with id " + id);
 		return service.findUser(id);
 
 	}
@@ -77,7 +83,9 @@ public class ProductBusinessService implements ProductlBusinessInterface
 	{
 
 		//Call Service and return a number based on the result
-		return service.update(productModel);
+		int infoNumber = service.update(productModel);
+		logger.info("Info Number is " + infoNumber);
+		return infoNumber;
 
 	}
 	
@@ -95,7 +103,9 @@ public class ProductBusinessService implements ProductlBusinessInterface
 
 		
 		//Call Service and return a number based on the result
-		return service.delete(productModel);
+		int infoNumber = service.delete(productModel);
+		logger.info("Info Number is " + infoNumber);
+		return infoNumber;
 	}
 	
 	
@@ -111,7 +121,6 @@ public class ProductBusinessService implements ProductlBusinessInterface
 	{
 	
 		return serviceProduct.findBySearchTerm(productModel);
-		
 	}
 	
 	

@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,6 +30,9 @@ import com.gcu.model.RegisterModel;
 public class SecurityBusinessService implements SecurityBusinessServiceInterface,  UserDetailsService 
 {
 
+	//Logger for logging to console and file
+	private static final Logger logger = LoggerFactory.getLogger(SecurityBusinessService.class);
+	
 	@Autowired
 	private UserDataAccessInterface<RegisterModel> service;
 	
@@ -52,7 +57,7 @@ public class SecurityBusinessService implements SecurityBusinessServiceInterface
 		//If user exists then send them back with granted authority
 		if(user != null)
 		{
-			
+			logger.info("User Found");
 			List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 			authorities.add(new SimpleGrantedAuthority("USER"));
 			
@@ -65,7 +70,8 @@ public class SecurityBusinessService implements SecurityBusinessServiceInterface
 		}
 		else
 		{
-			//Throw Error, currently does not work. 
+			//Throw Error
+			logger.error("User Not Found Error");
 			throw new UsernameNotFoundException("Username not found");
 		}
 	}
