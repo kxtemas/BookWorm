@@ -6,6 +6,8 @@ package com.gcu.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +28,9 @@ import org.springframework.ui.Model;
 @RequestMapping("/")
 public class MainController 
 {
+	//For the logger
+	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+	
 	/**
 	 * Displays the main page to the user
 	 * 
@@ -64,6 +69,7 @@ public class MainController
 		{
 			
 			//Take user to an error page
+			logger.error("Couldn't get to login page");
 			return "error";
 		}
 	}

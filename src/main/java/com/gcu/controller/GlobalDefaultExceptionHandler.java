@@ -1,6 +1,8 @@
 package com.gcu.controller;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,6 +22,9 @@ import com.gcu.utility.DatabaseException;
 @ControllerAdvice
 public class GlobalDefaultExceptionHandler 
 {
+	//For the logger
+	private static final Logger logger = LoggerFactory.getLogger(GlobalDefaultExceptionHandler.class);
+	
 	
 	/**
 	 * Handler for DatabaseExceptions. Will take user to error page.
@@ -41,6 +46,7 @@ public class GlobalDefaultExceptionHandler
 		model.addObject("errorMessage", "Error: " + ex.getErrorMessage());
 		model.setViewName("error");
 		
+		logger.error("Error: + " + ex.getErrorMessage());
 		
 		return model;
 	}
@@ -61,6 +67,8 @@ public class GlobalDefaultExceptionHandler
 		model.addObject("title", "Unknown Error");
 		model.addObject("errorMessage", "Error: An unidentified error has occurred.");
 		model.setViewName("error");
+		
+		logger.error("Error: An unidentified error has occurred.");
 		
 		return model;
 	}

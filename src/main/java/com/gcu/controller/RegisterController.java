@@ -2,6 +2,8 @@ package com.gcu.controller;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +30,8 @@ import org.springframework.validation.BindingResult;
 @RequestMapping("/register")
 public class RegisterController 
 {
+	//For the logger
+	private static final Logger logger = LoggerFactory.getLogger(RegisterController.class);
 	
 	//Initialize the Business service for the Register Module
 	@Autowired
@@ -71,6 +75,8 @@ public class RegisterController
 		//Check for Validation
 		if(bindingResult.hasErrors())
 		{
+			logger.warn("Validation Errors Found");
+			
 			model.addAttribute("title", "Register Form");
 			model.addAttribute("registerModel", registerModel);
 			return "register";
@@ -78,13 +84,14 @@ public class RegisterController
 		else
 		{
 		
+			logger.info("No Validation Errors Found");
 			String errorMessage; //For customizing error messages
 			int registerNumber = service.processRegister(registerModel); //We only want to call the service once so save the int code here.
 			
 			//Checks if 
 			if(registerNumber == 0)
 			{
-				
+				logger.info("Register Succesful");
 				//Take the user to the login page to use their new credentials 
 				model.addAttribute("title", "Login Form");
 				model.addAttribute("loginModel", new LoginModel());
@@ -106,6 +113,8 @@ public class RegisterController
 			{
 				errorMessage = "Error in Application";
 			}
+			
+			logger.warn("Error Found: " + errorMessage );
 			
 			//Keep the user on the page to try different credentials. 
 			model.addAttribute("title", "Register Form");

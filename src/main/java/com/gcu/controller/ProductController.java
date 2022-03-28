@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +37,8 @@ import org.springframework.validation.BindingResult;
 @RequestMapping("/shelf")
 public class ProductController 
 {
+	//For the logger
+	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	
 	//The list of products that will be displayed to the user.
 	private List<ProductModel> products = new ArrayList<ProductModel>();
@@ -150,18 +154,24 @@ public class ProductController
 		//Check for Validation errors.
 		if(bindingResult.hasErrors())
 		{
+			logger.warn("Validation Errors Found");
+			
 			//If Errors were found take the user back to the add page.
 			model.addAttribute("title", "Add Product");
 			return "add";
 		}
 		else
 		{
+			logger.info("No Validation Errors Found");
+			
 			//If there were no errors then try to add product to the product list
 			
 			String errorMessage; //Initialize error message
 			//Call service once and save number to determine the action
 			int productNumber = service.insertProduct(newProduct);
 		
+			logger.info("Product Number is " + productNumber);
+			
 			//Based on number, either take user to shelf page or display error.
 			if (productNumber == 0)
 			{
@@ -169,6 +179,7 @@ public class ProductController
 				if(session.getAttribute("username").equals("Admin"))
 				{
 					//Refresh the product list
+					logger.info("Product being added to list");
 					
 					products = service.getEveryProduct();
 					//Take the user back to the shelf page.
@@ -179,6 +190,8 @@ public class ProductController
 				else //If user go to the cart
 				{
 					//Refresh the product list
+					logger.info("Product being added to cart");
+					
 					products = service.displayUserProducts(id);
 					//Take the user back to the shelf page.
 					model.addAttribute("title", "My Cart");
@@ -202,6 +215,8 @@ public class ProductController
 				errorMessage = "Error in Application"; //Error Message
 				
 			}
+			
+			logger.warn("Error Found: " + errorMessage );
 			
 			//If Errors were found take the user back to the add page.
 			model.addAttribute("title", "Add Product");
@@ -229,27 +244,37 @@ public class ProductController
 		ProductModel newProduct = productModel;
 		int id = (int)session.getAttribute("id");
 		newProduct.setUserId(id);
+		
+		logger.info("Product Id is: " + productModel.getProductId());
 
 		//If no validation errors are found add to list and go to shelf page.
 
 		//Check for Validation errors.
 		if(bindingResult.hasErrors())
 		{
+			logger.warn("Validation Errors Found");
+			
 			//If Errors were found take the user back to the add page.
 			model.addAttribute("title", "Update Product");
 			return "update";
 		}
 		else
 		{
+			logger.info("No Validation Errors Found");
+			
 			//If there were no errors then try to add product to the product list
 			
 			String errorMessage; //Initialize error message
 			//Call service once and save number to determine the action
 			int productNumber = service.changeProduct(newProduct);
 		
+			logger.info("Product Number is " + productNumber);
+			
 			//Based on number, either take user to shelf page or display error.
 			if (productNumber == 0)
 			{
+				logger.info("Product Was Updated");
+				
 				//Refresh the product list
 				products = service.getEveryProduct();
 				
@@ -273,6 +298,8 @@ public class ProductController
 				errorMessage = "Error in Application"; //Error Message
 				
 			}
+			
+			logger.warn("Error Found: " + errorMessage );
 			
 			//If Errors were found take the user back to the add page.
 			model.addAttribute("title", "Update Product");
@@ -303,16 +330,20 @@ public class ProductController
 		int id = (int)session.getAttribute("id");
 		newProduct.setUserId(id);
 		
-
+		logger.info("Product Id is: " + productModel.getProductId());
+		
 		//Call service once and save number to determine the action
 		int productNumber = service.eraseProduct(newProduct);
 	
 		//Based on number, refresh shelf page
 		if (productNumber == 0)
 		{
+			logger.info("Product was Deleted");
+			
 			//If Admin go back to the Home Page
 			if(session.getAttribute("username").equals("Admin"))
 			{
+				logger.info("Product deleted from listing");
 				//Refresh the product list
 				
 				products = service.getEveryProduct();
@@ -323,6 +354,7 @@ public class ProductController
 			}
 			else //If user go to the cart
 			{
+				logger.info("Product deleted from user's cart");
 				//Refresh the product list
 				products = service.displayUserProducts(id);
 				//Take the user back to the shelf page.
@@ -334,6 +366,7 @@ public class ProductController
 		}
 		else
 		{
+			logger.error("Database is down");
 			throw new DatabaseException("Database is currently down. Could not delete product.");
 		}
 		

@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +33,8 @@ import org.springframework.ui.Model;
 @RequestMapping("/search")
 public class SearchController 
 {
+	//For the logger
+	private static final Logger logger = LoggerFactory.getLogger(SearchController.class);
 	
 	//The list of products that will be displayed to the user.
 	private List<ProductModel> products = new ArrayList<ProductModel>();
@@ -49,6 +53,7 @@ public class SearchController
 	@GetMapping("/")
 	public String display(Model model, HttpSession session)
 	{
+		
 		//Clear list to be used for search function
 		List<ProductModel> products = new ArrayList<ProductModel>();
 		
@@ -82,12 +87,18 @@ public class SearchController
 		int id = (int)session.getAttribute("id");
 		newProduct.setUserId(id);
 		
+		logger.info("User Id is: " + id);
+		
 		//Pull the searchTerm from the Book Name variable
 		String searchTerm = productModel.getBookName();	
+		
+		logger.info("Search Term is: " + searchTerm);
 		
 		//If user enters nothing then prevent their entire product list from showing
 		if(searchTerm == "")
 		{
+			logger.warn("Search Term is empty");
+			
 			//Make sure no product is shown
 			products = new ArrayList<ProductModel>();
 			
@@ -104,6 +115,8 @@ public class SearchController
 		//If nothing is found
 		if (products.isEmpty())
 		{
+			logger.warn("No Product Was Found");
+			
 			//Make sure no product is shown
 			products = new ArrayList<ProductModel>();
 			
