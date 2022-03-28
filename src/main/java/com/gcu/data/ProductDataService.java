@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -26,6 +28,8 @@ import com.gcu.utility.DatabaseException;
 @Service
 public class ProductDataService implements DataAccessInterface<ProductModel>, ProductDataAccessInterface<ProductModel> 
 {
+	//Logger for logging to console and file
+	private static final Logger logger = LoggerFactory.getLogger(ProductDataService.class);
 
 	//Initialize the Data Source and JDBC
 	@SuppressWarnings("unused")
@@ -61,6 +65,7 @@ public class ProductDataService implements DataAccessInterface<ProductModel>, Pr
 		
 		//SQL String that creates a view of every row that matches the user's id. 
 		String sql = "SELECT * FROM product WHERE USERID = '" + id + "'";
+		logger.info("SQL string is: " + sql);
 		
 		//Initialize the list for the Product Models
 		List<ProductModel> products = new ArrayList<ProductModel>();
@@ -83,11 +88,13 @@ public class ProductDataService implements DataAccessInterface<ProductModel>, Pr
 														srs.getString("BOOK_DES")));		
 			}	
 			
+			logger.info("Product list created for find");
 			return products;
 		}
 		catch (Exception e)
 		{
 			//Throw Database error
+			logger.error("Database Error");
 			throw new DatabaseException("The Database is currently down.");
 		}
 	}
@@ -117,13 +124,14 @@ public class ProductDataService implements DataAccessInterface<ProductModel>, Pr
 												+ productModel.getBookDescription() + "')";
 		
 		
-
+		logger.info("SQL string is: " + sql);
+		
 		//Try to create the product in the database. 
 		//Return 0 if update is successful, 1 if there was an error in the database.
 		try
 		{
 			//Adds the product to the database
-			
+			logger.info("Product Created");
 			jdbcTemplateObject.update(sql);
 			return 0; 
 		}
@@ -131,6 +139,7 @@ public class ProductDataService implements DataAccessInterface<ProductModel>, Pr
 		{
 			
 			//Throw Database error
+			logger.error("Database Error");
 			throw new DatabaseException("The Database is currently down. Adding product was unsuccessful");
 		}
 	}
@@ -157,13 +166,14 @@ public class ProductDataService implements DataAccessInterface<ProductModel>, Pr
 				"',`BOOK_DES`='" + productModel.getBookDescription()+
 				"' WHERE IDPRODUCT = " + productModel.getProductId() +
 				" AND USERID = " + productModel.getUserId() + ";";
+		logger.info("SQL string is: " + sql);
 		
 		//Try to update the product in the database. 
 		//Return 0 if update is successful, 1 if there was an error in the database.
 		try
 		{
 			//Adds the product to the database
-			
+			logger.info("Product Updated");
 			jdbcTemplateObject.update(sql);
 			return 0; 
 		}
@@ -171,6 +181,7 @@ public class ProductDataService implements DataAccessInterface<ProductModel>, Pr
 		{
 			
 			//Throw Database error
+			logger.error("Database Error");
 			throw new DatabaseException("The Database is currently down. Updating the product was unsuccessful");
 		}
 	}
@@ -188,17 +199,19 @@ public class ProductDataService implements DataAccessInterface<ProductModel>, Pr
 	{
 		
 		String sql = "DELETE FROM `product` WHERE IDPRODUCT = " + productModel.getProductId() + " AND USERID = " + productModel.getUserId() + ";";
+		logger.info("SQL string is: " + sql);
 		
 		try
 		{
 			//If one row is effected then the product was deleted. If not, throw DatabaseException.
 			if(jdbcTemplateObject.update(sql) == 1)
 			{	
-				
+				logger.info("Product Deleted");
 				return 0; 
 			}
 			else
 			{
+				logger.warn("Product not deleted");
 				return 1;
 				
 			}
@@ -206,6 +219,7 @@ public class ProductDataService implements DataAccessInterface<ProductModel>, Pr
 		catch(Exception e)
 		{
 			//Throw Database error
+			logger.error("Database Error");
 			throw new DatabaseException("The Database is currently down. Deleting product was unsuccessful");
 		}
 	}
@@ -229,7 +243,8 @@ public class ProductDataService implements DataAccessInterface<ProductModel>, Pr
 		String sql = "SELECT * FROM product WHERE USERID = (SELECT USERID FROM user WHERE USERNAME = 'Admin') AND (BOOK_NAME LIKE '%" + searchTerm + "%' OR BOOK_AUTHOR LIKE '%" + searchTerm + "%' "
 				+ "OR BOOK_GENRE LIKE '%" + searchTerm + "%' OR BOOK_DES LIKE '%"+ searchTerm + "%');";
 		
-
+		logger.info("SQL string is: " + sql);
+		
 		//Initialize the list for the Product Models
 		List<ProductModel> products = new ArrayList<ProductModel>();
 		
@@ -251,12 +266,14 @@ public class ProductDataService implements DataAccessInterface<ProductModel>, Pr
 															srs.getString("BOOK_DES")));		
 			}	
 			
+			logger.info("Products list created for search");
 			return products;
 		}
 		catch (Exception e)
 		{
 			
 			//Throw Error
+			logger.error("Database Error");
 			throw new DatabaseException("The Database is currently down. Products could not be searched");
 
 		}
@@ -275,6 +292,8 @@ public class ProductDataService implements DataAccessInterface<ProductModel>, Pr
 		
 		//SQL String that creates a view of every row that matches the user's id. 
 		String sql = "SELECT * FROM product WHERE USERID = (SELECT USERID FROM user WHERE USERNAME = 'Admin')";
+		
+		logger.info("SQL string is: " + sql);
 		
 		//Initialize the list for the Product Models
 		List<ProductModel> products = new ArrayList<ProductModel>();
@@ -297,11 +316,13 @@ public class ProductDataService implements DataAccessInterface<ProductModel>, Pr
 											srs.getString("BOOK_DES")));		
 			}	
 			
+			logger.info("Products list created for find all");
 			return products;
 		}
 		catch (Exception e)
 		{
 			//Throw Database error
+			logger.error("Database Error");
 			throw new DatabaseException("The Database is currently down.");
 		}
 	}
