@@ -4,12 +4,14 @@ on:
     branches: [main]
 
 jobs:
-  deploy-test-1:
+  build:
     runs-on: ubuntu-latest
     steps:
-     - uses: actions/checkout@v2
-      - uses: kxtemas/BookWorm@main
+      - uses: actions/checkout@v2
+      - uses: kxtemas/BookWorm # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "bookworm323"
+          heroku_app_name: "ms8"
           heroku_email: "kmunoz17@my.gcu.edu"
+          
+
