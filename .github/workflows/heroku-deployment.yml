@@ -7,6 +7,7 @@ jobs:
   deploy-test-1:
     runs-on: ubuntu-latest
     steps:
+     - uses: actions/checkout@v2
       - uses: kxtemas/BookWorm@main
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
